@@ -10,12 +10,26 @@
 //
 // We expect `fibonacci(0)` to return `0`, `fibonacci(1)` to return `1`,
 // `fibonacci(2)` to return `1`, and so on.
+use lazy_static::lazy_static;
+use std::sync::Mutex;
+lazy_static! {
+    static ref GLOBAL_VEC: Mutex<Vec<u32>> = Mutex::new(vec![0, 1]);
+}
 pub fn fibonacci(n: u32) -> u32 {
     // TODO: implement the `fibonacci` function
     //
     // Hint: use a `Vec` to memoize the results you have already calculated
     // so that you don't have to recalculate them several times.
-    todo!()
+    {
+        let mut v = GLOBAL_VEC.lock().unwrap();
+        if v.len() - 1 <= (n as usize) {
+            for idx in (v.len() as u32)..=n {
+                let t = v[(idx - 1) as usize] + v[idx as usize - 2];
+                v.push(t)
+            }
+        }
+        v[n as usize]
+    }
 }
 
 #[cfg(test)]
