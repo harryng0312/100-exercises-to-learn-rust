@@ -5,6 +5,10 @@
 mod tests {
     use super::*;
 
+    fn sum(v: &[i32]) -> i32 {
+        v.iter().fold(0, |acc, x| acc + x)
+    }
+
     #[test]
     fn empty() {
         let v = vec![];

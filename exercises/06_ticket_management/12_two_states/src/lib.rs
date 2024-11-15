@@ -6,6 +6,7 @@
 // You also need to add a `get` method that takes as input a `TicketId`
 // and returns an `Option<&Ticket>`.
 
+use std::time::SystemTime;
 use ticket_fields::{TicketDescription, TicketTitle};
 
 #[derive(Clone)]
@@ -44,8 +45,29 @@ impl TicketStore {
         }
     }
 
-    pub fn add_ticket(&mut self, ticket: Ticket) {
-        self.tickets.push(ticket);
+    pub fn add_ticket(&mut self, ticket_draft: TicketDraft) -> TicketId {
+        let now = SystemTime::now();
+        let id: TicketId = TicketId(now.duration_since(SystemTime::UNIX_EPOCH).unwrap().as_nanos().try_into().unwrap());
+        self.tickets.push(Ticket{
+            id: id.clone(),
+            title: ticket_draft.title,
+            description: ticket_draft.description,
+            status: Status::ToDo
+
+        });
+        id
+    }
+
+    pub fn get(&self, id: TicketId) -> Option<&Ticket> {
+        let v = self.tickets.iter()
+            .filter(|&t| t.id == id)
+            .collect::<Vec<&Ticket>>();
+        if v.len() > 0 {
+            Some(v[0])
+        } else {
+            None
+        }
+
     }
 }
 

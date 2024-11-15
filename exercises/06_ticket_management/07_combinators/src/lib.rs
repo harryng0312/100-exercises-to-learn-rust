@@ -31,6 +31,12 @@ impl TicketStore {
     pub fn add_ticket(&mut self, ticket: Ticket) {
         self.tickets.push(ticket);
     }
+
+    pub fn to_dos(&self) -> Vec<&Ticket> {
+        self.tickets.iter()
+            .filter(|&itm| { Status::ToDo == itm.status })
+            .collect()
+    }
 }
 
 #[cfg(test)]
@@ -57,6 +63,7 @@ mod tests {
         store.add_ticket(ticket);
 
         let todos: Vec<&Ticket> = store.to_dos();
+        // println!("{:?}", &store.tickets);
         assert_eq!(todos.len(), 1);
         assert_eq!(todos[0], &todo);
     }

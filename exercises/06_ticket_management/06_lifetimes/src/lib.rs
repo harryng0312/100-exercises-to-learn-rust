@@ -2,7 +2,7 @@ use std::vec::IntoIter;
 use ticket_fields::{TicketDescription, TicketTitle};
 
 // TODO: Implement the `IntoIterator` trait for `&TicketStore` so that the test compiles and passes.
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct TicketStore {
     tickets: Vec<Ticket>,
 }
@@ -42,12 +42,13 @@ impl<'a> IntoIterator for &'a TicketStore {
     type IntoIter = IntoIter<Self::Item>;
 
     fn into_iter(self) -> Self::IntoIter {
-        let mut v = vec![];
-        for itm in &self.tickets {
-            v.push(itm);
-        }
+        // let mut v = vec![];
+        // for itm in &self.tickets {
+        //     v.push(itm);
+        // }
+        // v.into_iter()
+        let v: Vec<Self::Item> = self.iter().collect();
         v.into_iter()
-        // self.tickets.into_iter()
     }
 }
 
@@ -78,6 +79,7 @@ mod tests {
         // println!("tickets: {:?}", tickets);
         let tickets2: Vec<&Ticket> = (&store).into_iter().collect();
         // println!("tickets2: {:?}", tickets2);
+        // println!("&store: {:?}", &store);
         assert_eq!(tickets, tickets2);
     }
 }
