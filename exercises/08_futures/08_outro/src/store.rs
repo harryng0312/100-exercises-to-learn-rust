@@ -19,7 +19,7 @@ impl TicketStore {
         }
     }
 
-    pub fn add(&mut self, ticket: TicketDraft) -> Result<Ticket, Err(String)> {
+    pub fn add(&mut self, ticket: TicketDraft) -> Result<Ticket, String> {
         self.count += 1;
         let new_tk = Ticket{
             id: self.count,

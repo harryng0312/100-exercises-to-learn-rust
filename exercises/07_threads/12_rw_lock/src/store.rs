@@ -19,7 +19,7 @@ impl TicketStore {
         }
     }
 
-    pub fn add(&mut self, ticket: TicketDraft) -> TicketId {
+    pub fn add_ticket(&mut self, ticket: TicketDraft) -> TicketId {
         let id = TicketId(self.counter);
         self.counter += 1;
         let ticket = Ticket {
@@ -35,7 +35,7 @@ impl TicketStore {
 
     // The `get` method should return a handle to the ticket
     // which allows the caller to either read or modify the ticket.
-    pub fn get(&self, id: TicketId) -> Option<Arc<RwLock<Ticket>>> {
+    pub fn get_ticket(&self, id: TicketId) -> Option<Arc<RwLock<Ticket>>> {
         self.tickets.get(&id).cloned()
     }
 }

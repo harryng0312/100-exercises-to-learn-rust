@@ -74,7 +74,7 @@ pub fn server(receiver: Receiver<Command>) {
                 id,
                 response_channel,
             }) => {
-                let ticket = store.get(id);
+                let ticket = store.get_ticket(id);
                 let _ = response_channel.send(ticket);
             }
             Err(_) => {
